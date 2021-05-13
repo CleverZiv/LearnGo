@@ -116,3 +116,21 @@ fi
   > 参考：https://www.runoob.com/linux/linux-comm-grep.html
 
 整个语句的意思就是说，首先 `crontab -l` 列出当前任务表，并且筛选有关键字"ntpdate" 的内容，如果没有筛选到，则执行添加计划任务的命令
+
+#### 1.2.2 禁用 selinux
+
+```shell
+# 禁用selinux
+sed -i '/SELINUX/{s/permissive/disabled/}' /etc/selinux/config
+```
+
+**`sed`**：流编辑命令
+
+> 参考：http://c.biancheng.net/view/4028.html
+
+上述语句的意思是：将文件`/etc/selinux/config` 中的 `SELINUX`行中的`permissive`替换为`disable`
+
+**选项和参数的区别：**
+
+> 参考：http://c.biancheng.net/view/3160.html
+
