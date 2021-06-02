@@ -11,9 +11,47 @@
 
 #### 什么时候应该用 array？
 
+- slice 底层是使用 array 存储的
+
 ### 第二个问题
 
 #### slice 的扩容机制
+
+测试代码如下：
+
+```go
+func TestGrowSlice(t *testing.T) {
+	s := []int{}
+	t.Log(len(s), cap(s))
+	for i:=0; i<17;i++{
+		s = append(s, i)
+		t.Log(len(s), cap(s))
+	}
+}
+```
+
+执行结果：
+
+```go
+0 0
+1 1
+2 2
+3 4
+4 4
+5 8
+6 8
+7 8
+8 8
+9 16
+10 16
+11 16
+12 16
+13 16
+14 16
+15 16
+16 16
+17 32
+```
 
 `growslice`方法：
 
@@ -24,8 +62,20 @@
 
 ```go
 var s []int
-s = append(s,0,1,2) // 3,3
+s = append(s,0,1,2) // 3,4
 ```
+
+课程中老师这里给出的答案是`3 3`，但经过自己的测试：
+
+```go
+func Test2(t *testing.T) {
+	var s []int
+	s = append(s,0,1,2) // 3,4
+	t.Log(len(s), cap(s))
+}
+```
+
+发现打印出的答案确实是 `3 4`，即当长度为3时，底层数组会扩容到4
 
 #### append slice 的三种方法对比
 
